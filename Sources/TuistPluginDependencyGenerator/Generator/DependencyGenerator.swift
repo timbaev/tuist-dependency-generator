@@ -9,20 +9,46 @@ final class DependencyGenerator {
         self.config = config
     }
 
-    func generate(projectDependencies: ProjectDependencies) throws {
-        let url = URL(fileURLWithPath: config.generationPath)
+    private func makeDependenciesContent(
+        projectName: String,
+        targetName: String,
+        featureType: String,
+        dependencies: [String]
+    ) -> String {
+        let dependencyContent = dependencies
+            .map { "    DependencyList.\($0)" }
+            .joined(separator: ",\n")
 
-        if !fileManager.fileExists(atPath: config.generationPath) {
-            try fileManager.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
-        }
+        return """
+            public let \(projectName)\(targetName)Dependencies = \(featureType)Dependencies(
+            \(dependencyContent)
+            ).dependencies
+            """
+    }
 
-        let fileURL = url.appendingPathComponent("\(projectDependencies.projectName)Dependencies.generated.swift")
+    func generate(projectDependencies: ProjectDependencies) async throws {
+        try await Task.detached {
+            let url = URL(fileURLWithPath: self.config.generationPath)
 
-        let dependenciesString = projectDependencies.targetDependencies
-            .map { $0.dependencies.fillTemplate(name: projectDependencies.projectName + $0.targetName) }
-            .joined(separator: "\n\n")
-            .fillFileTemplate()
+            if !self.fileManager.fileExists(atPath: self.config.generationPath) {
+                try self.fileManager.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+            }
 
-        try dependenciesString.write(to: fileURL, atomically: true, encoding: .utf8)
+            let fileURL = url.appendingPathComponent("\(projectDependencies.projectName)Dependencies.generated.swift")
+
+            let dependenciesString = projectDependencies.targetDependencies
+                .map {
+                    self.makeDependenciesContent(
+                        projectName: projectDependencies.projectName,
+                        targetName: $0.targetName,
+                        featureType: projectDependencies.featureType.rawValue,
+                        dependencies: $0.dependencies
+                    )
+                }
+                .joined(separator: "\n\n")
+                .fillFileTemplate()
+
+            try dependenciesString.write(to: fileURL, atomically: true, encoding: .utf8)
+        }.value
     }
 }
