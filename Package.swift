@@ -5,19 +5,15 @@ import PackageDescription
 
 let package = Package(
     name: "tuist-dependency-generator",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v12)],
     products: [
-        .executable(name: "tuist-dependency-generator", targets: ["TuistPluginDependencyGenerator"]),
+        .executable(name: "tuist-dependency-generator", targets: ["TuistPluginDependencyGenerator"])
     ],
-    dependencies: [
-        .package(url: "https://github.com/tuist/ProjectAutomation", from: "3.2.0")
-    ],
+    dependencies: [],
     targets: [
         .executableTarget(
             name: "TuistPluginDependencyGenerator",
-            dependencies: [
-                .product(name: "ProjectAutomation", package: "ProjectAutomation")
-            ]
+            dependencies: []
         )
     ]
 )
