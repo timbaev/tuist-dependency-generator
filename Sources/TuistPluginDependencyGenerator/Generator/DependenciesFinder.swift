@@ -126,7 +126,6 @@ final class DependenciesFinder {
             targetDependencies: [
                 await findTargetDependencies(at: url.appendingPathComponent("Sources")),
                 await findTargetDependencies(at: url.appendingPathComponent("Core")),
-                await findTargetDependencies(at: url.appendingPathComponent("Example")),
                 await findTargetDependencies(at: url.appendingPathComponent("Tests")),
                 await findTargetDependencies(at: url.appendingPathComponent("Testing"))
             ]
