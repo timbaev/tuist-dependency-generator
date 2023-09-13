@@ -71,6 +71,7 @@ final class DependenciesFinder {
             dependencies: await findAllUniqueImports(at: url.appendingPathComponent("Main/Sources"))
                 + findAllUniqueImports(at: url.appendingPathComponent("HH/Sources"))
                 + findAllUniqueImports(at: url.appendingPathComponent("JTB/Sources"))
+                + findAllUniqueImports(at: url.appendingPathComponent("ZP/Sources"))
         )
     }
 
