@@ -106,7 +106,8 @@ final class DependenciesFinder {
                 await findTargetDependencies(at: url.appendingPathComponent("UnitTests")),
                 await findTargetDependencies(at: url.appendingPathComponent("UITests")),
                 await findTargetDependencies(at: url.appendingPathComponent("Extensions/Widget")),
-                await findTargetDependencies(at: url.appendingPathComponent("Extensions/TodayWidget"))
+                await findTargetDependencies(at: url.appendingPathComponent("Extensions/TodayWidget")),
+                await findTargetDependencies(at: url.appendingPathComponent("Extensions/RichPush"))
             ]
         )
     }
