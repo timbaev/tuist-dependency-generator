@@ -5,6 +5,7 @@ struct Config {
     let excludedImports = [
         "AppKit",
         "ApplicantHH",
+        "ApplicantZP",
         "ApplicantJTB",
         "HRMobileHH",
         "HRMobileJTB",
