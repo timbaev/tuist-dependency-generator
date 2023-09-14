@@ -6,11 +6,11 @@ readonly root_path="$( cd "${tools_path}/../" && pwd )"
 readonly product_name="tuist-dependency-generator"
 
 readonly build_path=".build"
-readonly product_path="${build_path}/release/${product_name}"
+readonly product_path="${build_path}/apple/Products/Release/${product_name}"
 
 build() {
     swift package clean
-    swift build -c release
+    swift build --disable-sandbox -c release --arch arm64 --arch x86_64
 }
 
 release() {
